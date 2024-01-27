@@ -10,7 +10,7 @@ dotenv.config()
 const app = express();
 
 //connect database
-// connectDB();
+connectDB();
 
 //rest api
 app.get('/api',(req,res)=>{
@@ -18,7 +18,7 @@ app.get('/api',(req,res)=>{
 })
 
 //PORT
-const PORT = process.env.PORT || 5000
+const PORT = process.env.PORT || 8080
 
 //run listen
 app.listen(PORT, ()=>{
