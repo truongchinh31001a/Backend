@@ -2,6 +2,8 @@ import express from 'express';
 import colors from "colors"
 import dotenv from "dotenv"
 import connectDB from './Config/db.js';
+import userRoutes from './Router/userRoutes.js';
+import morgan from 'morgan';
 
 // configura env
 dotenv.config()
@@ -12,7 +14,14 @@ const app = express();
 //connect database
 connectDB();
 
+app.use(express.json())
+app.use(express.urlencoded({ extended : true }))
+app.use(morgan('dev'))
+
+
 //rest api
+app.use('/api/users', userRoutes)
+
 app.get('/api',(req,res)=>{
     res.send({message:"wellcom to  ecommerce app"})
 })

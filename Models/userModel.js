@@ -31,7 +31,7 @@ const userSchema = new mongoose.Schema({
     },
     email:{
         type: String,
-        required : true
+        required : false
     },
     verifiedEmail:{
         type:Boolean
@@ -39,12 +39,12 @@ const userSchema = new mongoose.Schema({
     verifiedStatus:{
         type: String,
         enum :['not verified','submitted KYC','approved', 'rejected'],
-        default : 'not verified' 
+        default : 'not verified',
     }
 },{
     timestamps:true,
 })
 
-const User = mongoose.Model('User', userSchema);
+const User = mongoose.model('User', userSchema);
 
 export default User
