@@ -1,7 +1,6 @@
 import User from "../Models/userModel.js";
 import generateToken from '../Utils/generateToken.js'
 import Web3 from 'web3'
-import { generateOTP, sendOTP } from "../Utils/generateOTP.js"
 
 const getLoginMessage = async (req, res) => {
   try {
@@ -47,13 +46,13 @@ const loginUser = async (req, res) => {
       return res.status(404).json({ message: 'Người dùng không tồn tại hoặc không có số nonce' });
     }
     // Kiểm tra chữ ký bằng cách sử dụng thư viện Web3 và địa chỉ ví
-    const web3 = new Web3();
-    const recoveredAddress = web3.eth.accounts.recover(sign);
+    // const web3 = new Web3();
+    // const recoveredAddress = web3.eth.accounts.recover(sign);
 
-    // Kiểm tra xem chữ ký có hợp lệ hay không
-    if (recoveredAddress.toLowerCase() !== address.toLowerCase()) {
-      return res.status(401).json({ message: 'Chữ ký không hợp lệ' });
-    }
+    // // Kiểm tra xem chữ ký có hợp lệ hay không
+    // if (recoveredAddress.toLowerCase() !== address.toLowerCase()) {
+    //   return res.status(401).json({ message: 'Chữ ký không hợp lệ' });
+    // }
 
     // Tạo mã token
     const token = generateToken(res, user._id);
@@ -67,8 +66,4 @@ const loginUser = async (req, res) => {
     res.status(500).json({ error });
   }
 };
-
-
-
-
 export { loginUser, getLoginMessage };
