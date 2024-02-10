@@ -10,11 +10,12 @@ const otpSchema= new mongoose.Schema({
         type: String,
         required: true
     },
+    createTime:{
+        type : Date
+    },
     expiredTime: {
         type: Date,
     }
-},{
-    timestamps: true,
 })
 
 const Otp = mongoose.model('Otp', otpSchema);

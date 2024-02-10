@@ -4,6 +4,7 @@ import dotenv from "dotenv"
 import connectDB from './Config/db.js';
 import userRoutes from './Router/userRoutes.js';
 import morgan from 'morgan';
+import cookieParser from 'cookie-parser';
 
 // configura env
 dotenv.config()
@@ -18,7 +19,7 @@ app.use(express.json())
 app.use(express.urlencoded({ extended : true }))
 app.use(morgan('dev'))
 
-
+app.use(cookieParser())
 //rest api
 app.use('/api/users', userRoutes)
 
