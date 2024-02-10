@@ -36,6 +36,7 @@ const sendOTP = async (email, otp) => {
     }
 };
 
+
 //hàm xác minh otp và đặt verifiedEmail: true
 const verifyOTP = async (userId, otp) => {
     try {

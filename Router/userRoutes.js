@@ -9,7 +9,8 @@ const router = express.Router();
 router. get ('/getLoginMessage', getLoginMessage)
 router. post ('/login', loginUser)
 // User KYC
-router.post('/sendEmail',protect ,sendEmailOTP)
+// verify email
+router.post('/sendEmail',protect ,sendEmailOTP) 
 router.post('/veifyOTP', verifyEmailOTP)
 
 

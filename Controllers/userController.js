@@ -27,6 +27,8 @@ const sendEmailOTP = async (req, res) => {
     } catch (error) {
         console.log('Error sending email OTP:', error.message);
         res.status(500).json({ error: 'Failed to send email OTP' });
+
+        
     }
 }
 
