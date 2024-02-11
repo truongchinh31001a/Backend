@@ -11,7 +11,7 @@ router. post ('/login', loginUser)
 // User KYC
 // verify email
 router.post('/sendEmail',protect ,sendEmailOTP) 
-router.post('/veifyOTP', verifyEmailOTP)
+router.post('/verifyOTP',protect ,verifyEmailOTP)
 
 
 

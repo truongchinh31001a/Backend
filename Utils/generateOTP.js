@@ -1,5 +1,6 @@
 import nodemailer from 'nodemailer'
 import Otp from '../Models/otpModel.js'
+import User from '../Models/userModel.js';
 
 const generateOTP = () => {
     const length = 6;
@@ -34,11 +35,10 @@ const sendOTP = async (email, otp) => {
         await transporter.sendMail(mailOptions);
         console.log('Email xác nhận đã được gửi.');
     } catch (error) {
-        console.error('Lỗi khi gửi email xác nhận:', error);
-        throw new Error('Lỗi khi gửi email xác nhận.');
+        console.log('Lỗi khi xác minh OTP:', error);
+        throw new Error( 'Lỗi khi gửi email xác nhận' );
     }
 };
-
 
 //hàm xác minh otp và đặt verifiedEmail: true
 const verifyOTP = async (userId, otp) => {
@@ -59,8 +59,8 @@ const verifyOTP = async (userId, otp) => {
         await Otp.findByIdAndDelete(otpData._id);
         console.log('OTP đã được xác minh và địa chỉ ví đã được đánh dấu là đã xác nhận.');
     } catch (error) {
-        console.error('Lỗi khi xác minh OTP:', error);
-        throw new Error('Lỗi khi xác minh OTP.');
+        console.log('Lỗi khi xác minh OTP:', error);
+        throw new Error( 'Lỗi khi xác minh OTP' );
     }
 }
 

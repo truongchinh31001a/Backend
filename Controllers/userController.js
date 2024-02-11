@@ -1,4 +1,5 @@
 import Otp from "../Models/otpModel.js";
+import User from "../Models/userModel.js";
 import { generateOTP, sendOTP, verifyOTP } from "../Utils/generateOTP.js";
 
 
@@ -6,29 +7,25 @@ import { generateOTP, sendOTP, verifyOTP } from "../Utils/generateOTP.js";
 const sendEmailOTP = async (req, res) => {
     try {
         const { email } = req.body
-
+        const userId = req.user._id
+        //save email user
+        await User.findByIdAndUpdate(userId, { email: email})
         //generate Otp
         const otp = generateOTP()
-        
         // save  OTP  in  the database
         const otpData = new Otp({
-            userId: req.user._id,
+            userId: userId,
             code: otp,
             createTime: new Date(),
             expiredTime: new Date(Date.now() + 5 * 60 * 1000), // Set OTP expiration time to 5 minutes from now
         })
         await otpData.save()
-
         // Send OTP  via email
         await sendOTP(email,otp)
-        
-
         res.status(200).json({message: 'OTP sent successfully'})
     } catch (error) {
         console.log('Error sending email OTP:', error.message);
         res.status(500).json({ error: 'Failed to send email OTP' });
-
-        
     }
 }
 
