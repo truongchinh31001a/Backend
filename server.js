@@ -20,6 +20,7 @@ app.use(express.urlencoded({ extended : true }))
 app.use(morgan('dev'))
 
 app.use(cookieParser())
+
 //rest api
 app.use('/api/users', userRoutes)
 

@@ -58,10 +58,13 @@ const verifyOTP = async (userId, otp) => {
         // Xoá OTP đã xác minh khỏi cơ sở dữ liệu
         await Otp.findByIdAndDelete(otpData._id);
         console.log('OTP đã được xác minh và địa chỉ ví đã được đánh dấu là đã xác nhận.');
+        return true;
     } catch (error) {
         console.log('Lỗi khi xác minh OTP:', error);
         throw new Error( 'Lỗi khi xác minh OTP' );
     }
 }
+
+
 
 export {generateOTP, sendOTP, verifyOTP }
