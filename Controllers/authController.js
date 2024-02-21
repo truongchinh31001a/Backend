@@ -1,6 +1,8 @@
 import User from "../Models/userModel.js";
 import generateToken from '../Utils/generateToken.js'
-import Web3 from 'web3'
+import   {getLoginMassage} from "../Utils/getLoginMassage.js"
+import ethUtil from 'ethereumjs-util'
+import sigUtil from 'eth-sig-util'
 
 const getLoginMessage = async (req, res) => {
   try {
@@ -25,7 +27,7 @@ const getLoginMessage = async (req, res) => {
       nonce = user.nonce;
     }
     // Trả về thông điệp đăng nhập cho frontend
-    res.json({ message: `Wellcome to XYZ, please sign this message to authen ${nonce}` });
+    res.json({ message: getLoginMassage(nonce) });
   }
   catch (error) {
     console.log(error.message);
@@ -36,9 +38,9 @@ const getLoginMessage = async (req, res) => {
 const loginUser = async (req, res) => {
   try {
     const { address, sign } = req.body;
-    // if (!address || !sign) {
-    //   return res.status(400).json({ message: 'Địa chỉ ví và chữ ký là bắt buộc' });
-    // }
+    if (!address || !sign) {
+      return res.status(400).json({ message: 'Địa chỉ ví và chữ ký là bắt buộc' });
+    }
     const user = await User.findOne({ wallet_address: address }).maxTimeMS(20000)
     // console.log('User:', user);
     // Kiểm tra nếu người dùng không tồn tại hoặc không có số nonce
@@ -46,17 +48,20 @@ const loginUser = async (req, res) => {
       return res.status(404).json({ message: 'Người dùng không tồn tại hoặc không có số nonce' });
     }
     // Kiểm tra chữ ký bằng cách sử dụng thư viện Web3 và địa chỉ ví
-    // const web3 = new Web3();
-    // const recoveredAddress = web3.eth.accounts.recover(sign);
+    
+  const msgBufferHex = ethUtil.bufferToHex(Buffer.from(getLoginMassage(user.nonce), 'utf8'));
+  const recoveredAddress = sigUtil.recoverPersonalSignature({
+        data: msgBufferHex,
+        sig: sign,
+      });
 
-    // // Kiểm tra xem chữ ký có hợp lệ hay không
-    // if (recoveredAddress.toLowerCase() !== address.toLowerCase()) {
-    //   return res.status(401).json({ message: 'Chữ ký không hợp lệ' });
-    // }
+    // Kiểm tra xem chữ ký có hợp lệ hay không
+    if (recoveredAddress.toLowerCase() !== address.toLowerCase()) {
+      return res.status(401).json({ message: 'Chữ ký không hợp lệ' });
+    }
 
     // Tạo mã token
-    const token = generateToken(res, user._id);
-    await user.save();
+    const token = generateToken(user._id);
 
     // Gửi mã token cho frontend
     res.json({ token });
