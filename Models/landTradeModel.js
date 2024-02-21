@@ -32,7 +32,7 @@ const landTradeSchema = new mongoose.Schema({
         type: String
     },
     price:{
-        type: Double
+        type: Number
     },
     numberLand:{
         type: String
@@ -62,16 +62,16 @@ const landTradeSchema = new mongoose.Schema({
         type: String
     },
     incomeTax:{
-        type: Double
+        type: Number
     },
     timeDeposit:{
-        type: Double
+        type: Number
     },
     remainingAmount:{
-        type: Double
+        type: Number
     },
     amountReceived:{
-        type: Double
+        type: Number
     },
     comment:{
         type: String

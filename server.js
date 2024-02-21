@@ -3,6 +3,7 @@ import colors from "colors"
 import dotenv from "dotenv"
 import connectDB from './Config/db.js';
 import userRoutes from './Router/userRoutes.js';
+import searchRoutes from './Router/searchRoutes.js'; 
 import morgan from 'morgan';
 import cookieParser from 'cookie-parser';
 
@@ -23,6 +24,7 @@ app.use(cookieParser())
 
 //rest api
 app.use('/api/users', userRoutes)
+app.use('/api/search', searchRoutes)
 
 app.get('/api',(req,res)=>{
     res.send({message:"wellcom to  ecommerce app"})
