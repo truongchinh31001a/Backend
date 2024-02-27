@@ -8,7 +8,7 @@ const validateFields = [
     body('permanent_address').notEmpty().isString(),
     body('idCard_front_url').notEmpty().isString(),
     body('idCard_back_url').notEmpty().isString(),
-    body('otp').notEmpty().isString().isLength({ min: 6, max: 6 }).matches(/^[0-9]+$/),
+    // body('otp').notEmpty().isString().isLength({ min: 6, max: 6 }).matches(/^[0-9]+$/),
 
     // Xử lý lỗi nếu có
     (req, res, next) => {
