@@ -29,15 +29,15 @@ const sendEmailOTP = async (req, res) => {
 };
 
 //POST verify email
-const verifyEmailOTP =  async (req, res) => {
-    try{
-        const {otp} = req.body;
+const verifyEmailOTP = async (req, res) => {
+    try {
+        const { otp } = req.body;
         //verify OTP
         await verifyOTP(req.user._id, otp)
         res.status(200).json({ message: 'Email OTP verified successfully' });
-    }catch (error) {
-      console.error('Error verifying email OTP:', error);
-      res.status(500).json({ error: 'Failed to verify email OTP' });
+    } catch (error) {
+        console.error('Error verifying email OTP:', error);
+        res.status(500).json({ error: 'Failed to verify email OTP' });
     }
 }
 
@@ -101,8 +101,8 @@ const putUserKYC = async (req, res) => {
         const verifiedEmail = user.verifiedEmail;
         if (!verifiedEmail) {
             return res.status(400).json({ message: 'Invalid OTP' });
-        }else{
-            await User.findByIdAndUpdate(userId, {
+        } else {
+            const existingUser = await User.findById(userId, {
                 full_name: full_name,
                 id_card: id_card,
                 birthday: birthday,
@@ -112,7 +112,21 @@ const putUserKYC = async (req, res) => {
                 idCard_back_url: idCard_back_url,
                 verifiedStatus: 'submitted KYC',
             });
-            res.status(200).json({ message: "User KYC submitted successfully" });
+            if (existingUser) {
+                return res.status(400).json({ message: 'User already exists' });
+            } else {
+                await User.findByIdAndUpdate(userId, {
+                    full_name: full_name,
+                    id_card: id_card,
+                    birthday: birthday,
+                    hometown: hometown,
+                    permanent_address: permanent_address,
+                    idCard_front_url: idCard_front_url,
+                    idCard_back_url: idCard_back_url,
+                    verifiedStatus: 'submitted KYC',
+                });
+                res.status(200).json({ message: "User KYC submitted successfully" });
+            }
         }
     } catch (error) {
         console.log('failed userKYC', error);
