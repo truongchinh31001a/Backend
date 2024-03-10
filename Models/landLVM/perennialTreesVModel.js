@@ -4,7 +4,6 @@ const perennialTreeSchema = new mongoose.Schema({
     landLicenceId:{
         type : mongoose.Schema.Types.ObjectId,
         ref : 'LandLicense',
-        required : true
     },
     forest_type:{
         type: String

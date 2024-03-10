@@ -15,7 +15,7 @@ const authNotary = (async (req, res, next) => {
     await verifyToken(req, res, next);
     const user = req.user;
     // Kiểm tra xem người dùng có vai trò là Notary hay không
-    if (!user.roles.includes('notary')) {
+    if (!user.roles.includes('NOTARY_ROLE')) {
       return res.status(403).json({ message: 'Access denied. Not a Notary.' });
     }
     next();

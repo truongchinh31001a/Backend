@@ -4,22 +4,21 @@ const houseSchema = new mongoose.Schema({
     landLicenceId:{
         type : mongoose.Schema.Types.ObjectId,
         ref : 'LandLicense',
-        required : true
     },
     constructionArea:{
-        type: Double
+        type: Number
     },
     floorArea:{
-        type: Double
+        type: Number
     },
     lever:{
-        type: Int
+        type: Number
     },
     structure:{
         type: String
     },
     floorsOfNumber:{
-        type: Int
+        type: Number
     },
     ownership_period:{
         type: String

@@ -8,7 +8,7 @@ const landLicenceSchema = new mongoose.Schema({
     },
     status:{
         type: String,
-        enum: ['daft','onBlockchain','for sale'],
+        enum: ['draft','onBlockchain','for sale'],
         default: 'none'
     },
     land_lot: { 
@@ -17,27 +17,22 @@ const landLicenceSchema = new mongoose.Schema({
     house_id :{
         type: mongoose.Schema.Types.ObjectId,
         ref:'House',
-        required: true
     },
     other_construction_works:{
         type: mongoose.Schema.Types.ObjectId,
         ref:'OtherConstructionWork',
-        required: true
     },
     prod_forest_is_an_artificial_forest: {
         type: mongoose.Schema.Types.ObjectId,
         ref:'ProdForestIsAnArtificialForest',
-        required: true
     },
     perennial_trees:{
         type: mongoose.Schema.Types.ObjectId,
         ref:'PerennialTree',
-        required: true
     },
     notice:{
         type: mongoose.Schema.Types.ObjectId,
         ref:'Notice',
-        required: true
     },
     diagram_url:{
         type: String
@@ -53,6 +48,6 @@ const landLicenceSchema = new mongoose.Schema({
     }
 })
 
-const LandLicence = mongoose.Model('LandLicense',landLicenceSchema)
+const LandLicence = mongoose.model('LandLicense',landLicenceSchema)
 
 export default LandLicence
