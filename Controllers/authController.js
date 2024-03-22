@@ -6,7 +6,7 @@ import sigUtil from 'eth-sig-util'
 
 const getLoginMessage = async (req, res) => {
   try {
-    const { address } = req.body;
+    const { address } = req.query;
     // kiểm tra người dùng tồn tại?
     let user = await User.findOne({ wallet_address: address }).maxTimeMS(15000);;
     let nonce;
@@ -62,7 +62,7 @@ const loginUser = async (req, res) => {
 
     // Tạo mã token
     const token = generateToken(user._id);
-
+    
     // Gửi mã token cho frontend
     res.json({ token });
 

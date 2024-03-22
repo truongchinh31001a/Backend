@@ -6,6 +6,7 @@ import userRoutes from './Router/userRoutes.js';
 import searchRoutes from './Router/searchRoutes.js'; 
 import morgan from 'morgan';
 import cookieParser from 'cookie-parser';
+import cors from 'cors';
 
 // configura env
 dotenv.config()
@@ -13,6 +14,7 @@ dotenv.config()
 //rest object
 const app = express();
 
+app.use(cors());
 //connect database
 connectDB();
 
