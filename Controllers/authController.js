@@ -1,6 +1,6 @@
 import User from "../Models/userModel.js";
-import generateToken from '../Utils/generateToken.js'
-import   {getLoginMassage} from "../Utils/getLoginMassage.js"
+import {generateToken} from '../Utils/generateToken.js'
+import {getLoginMassage} from "../Utils/getLoginMassage.js"
 import ethUtil from 'ethereumjs-util'
 import sigUtil from 'eth-sig-util'
 

@@ -41,7 +41,7 @@ const verifyEmailOTP = async (req, res) => {
     }
 }
 
-// Get
+// Get user KYC
 const getAllUser = async (req, res) => {
     try {
         const userId = req.user._id; // Lấy ID người dùng từ middleware protect
@@ -133,5 +133,7 @@ const putUserKYC = async (req, res) => {
         res.status(500).json({ message: 'An error occurred while processing User KYC' });
     }
 };
+
+
 
 export { sendEmailOTP, verifyEmailOTP, getAllUser, putUserKYC };

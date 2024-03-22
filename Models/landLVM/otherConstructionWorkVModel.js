@@ -4,7 +4,6 @@ const otherContructionWorkSchema = new mongoose.Schema({
     landLicenceId:{
         type : mongoose.Schema.Types.ObjectId,
         ref : 'LandLicense',
-        required : true
     },
     type_of_construction:{
         type: String
@@ -13,16 +12,16 @@ const otherContructionWorkSchema = new mongoose.Schema({
         type: String
     },
     construction_area:{
-        type: Double
+        type: Number
     },
     floor_area:{
-        type: Double
+        type: Number
     },
     
     ownership_period:{
         type: String
     }
 })
-const OtherConstructionWork = mongoose.model('OtherContructionWork',houseSchema)
+const OtherConstructionWork = mongoose.model('OtherContructionWork',otherContructionWorkSchema)
 
 export default OtherConstructionWork

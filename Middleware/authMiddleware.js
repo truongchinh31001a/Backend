@@ -1,27 +1,28 @@
-import jwt from 'jsonwebtoken'
-import User from '../Models/userModel.js'
+import { verifyToken } from '../Utils/generateToken.js'
 
-const protect = (async (req, res, next) => {
-  const token = req.header('Authorization');
 
-  if (!token) return res.status(401).json({ message: 'Access denied. No token provided.' });
-
+const protect = async (req, res, next) => {
   try {
-    // Kiểm tra xem token có đúng định dạng không (Bearer token)
-    if (!token.startsWith('Bearer ')) {
-      return res.status(401).json({ message: 'Invalid token format. It should be in the format "Bearer <token>".' });
-    }
-    // Lấy phần token sau chuỗi 'Bearer '
-    const authToken = token.split(' ')[1];
-    const decoded = jwt.verify(authToken, process.env.JWT_SECRET)
-    req.user = await User.findById(decoded.userId)
-    next()
-
+    await verifyToken(req, res, next);
   } catch (error) {
     res.status(500)
     throw new Error('Not authorized, invalid token')
   }
+}
 
+const authNotary = (async (req, res, next) => {
+  try {
+    await verifyToken(req, res, next);
+    const user = req.user;
+    // Kiểm tra xem người dùng có vai trò là Notary hay không
+    if (!user.roles.includes('NOTARY_ROLE')) {
+      return res.status(403).json({ message: 'Access denied. Not a Notary.' });
+    }
+    next();
+  } catch (error) {
+    res.status(500)
+    throw new Error('Not authorized, invalid token and not notary');
+  }
 })
 
-export { protect }
+export { protect, authNotary }
