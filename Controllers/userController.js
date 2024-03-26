@@ -97,43 +97,24 @@ const putUserKYC = async (req, res) => {
             idCard_back_url
         } = req.body;
         const userId = req.user._id;
-        const user = await User.findById(userId);
-        const verifiedEmail = user.verifiedEmail;
-        if (!verifiedEmail) {
-            return res.status(400).json({ message: 'Invalid OTP' });
-        } else {
-            const existingUser = await User.findById(userId, {
-                full_name: full_name,
-                id_card: id_card,
-                birthday: birthday,
-                hometown: hometown,
-                permanent_address: permanent_address,
-                idCard_front_url: idCard_front_url,
-                idCard_back_url: idCard_back_url,
-                verifiedStatus: 'submitted KYC',
-            });
-            if (existingUser) {
-                return res.status(400).json({ message: 'User already exists' });
-            } else {
-                await User.findByIdAndUpdate(userId, {
-                    full_name: full_name,
-                    id_card: id_card,
-                    birthday: birthday,
-                    hometown: hometown,
-                    permanent_address: permanent_address,
-                    idCard_front_url: idCard_front_url,
-                    idCard_back_url: idCard_back_url,
-                    verifiedStatus: 'submitted KYC',
-                });
-                res.status(200).json({ message: "User KYC submitted successfully" });
-            }
-        }
+
+        // Cập nhật thông tin KYC và trạng thái của người dùng
+        await User.findByIdAndUpdate(userId, {
+            full_name: full_name,
+            id_card: id_card,
+            birthday: birthday,
+            hometown: hometown,
+            permanent_address: permanent_address,
+            idCard_front_url: idCard_front_url,
+            idCard_back_url: idCard_back_url,
+            verifiedStatus: 'submitted KYC',
+        });
+
+        res.status(200).json({ message: "User KYC submitted successfully", verifiedStatus: 'submitted KYC' });
     } catch (error) {
-        console.log('failed userKYC', error);
+        console.log('Failed userKYC', error);
         res.status(500).json({ message: 'An error occurred while processing User KYC' });
     }
 };
-
-
 
 export { sendEmailOTP, verifyEmailOTP, getAllUser, putUserKYC };

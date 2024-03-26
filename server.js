@@ -8,13 +8,17 @@ import searchRoutes from './Router/searchRoutes.js';
 import morgan from 'morgan';
 import cookieParser from 'cookie-parser';
 import cors from 'cors';
+import bodyParser from 'body-parser';
 
 // configura env
 dotenv.config()
 
+
 //rest object
 const app = express();
-
+app.use(bodyParser.json({ limit: '50mb' })); // Increase limit to 50MB
+app.use(bodyParser.urlencoded({ limit: '50mb', extended: true }));
+//connect database
 app.use(cors());
 //connect database
 connectDB();

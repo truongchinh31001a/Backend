@@ -10,7 +10,7 @@ const updateStatusUser = (async (req, res) => {
         const user = req.user
         if (!user || user.role !== 'NOTARY_ROLE') return res.status(403).json({ message: 'You do not have permission to access this task.' })
 
-        if (user.verifiedStatus === 'submitKYC') {
+        if (user.verifiedStatus === 'submitted KYC') {
             await User.findByIdAndUpdate(userId, { verifiedStatus: verifiedStatus })
             if (verifiedStatus === 'approved') return res.status(200).json({ message: 'User KYC successfully' })
             if (verifiedStatus === 'rejected') return res.status(200).json({ message: 'Invalid information' })
@@ -64,5 +64,17 @@ const updateCertificate = async (licenseId, LandAddress, landLot) => {
   };
 })
 
-export { updateStatusUser, createCertificate, updateCerfiticate }
+const getSubmittedKYCUsers = async (req, res) => {
+    try {
+        const submittedKYCUsers = await User.find({ verifiedStatus: 'submitted KYC' })
+            .select(' wallet_address idCard_front_url idCard_back_url id_card full_name verifiedStatus birthday hometown permanent_address email')
+            .limit(100); // Giới hạn số lượng kết quả trả về
+        res.status(200).json(submittedKYCUsers);
+    } catch (error) {
+        console.error('Error getting submitted KYC users:', error);
+        res.status(500).json({ message: error.message }); // Trả về thông báo lỗi cụ thể
+    }
+};
+
+export { updateStatusUser, createCertificate, updateCerfiticate, getSubmittedKYCUsers }
 
